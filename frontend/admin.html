@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin — Elvas Cleaning</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --blue-deep:   #1A3A5C;
+      --blue-mid:    #2563A8;
+      --blue-light:  #5B9BD5;
+      --blue-pale:   #D6E8F7;
+      --warm-white:  #F9F7F4;
+      --white:       #FFFFFF;
+      --text-dark:   #1A2332;
+      --text-muted:  #6B7C93;
+      --accent:      #E8A44A;
+      --green:       #22c55e;
+      --font-display: 'Playfair Display', serif;
+      --font-body:    'DM Sans', sans-serif;
+      --shadow-soft:  0 4px 24px rgba(26,58,92,0.10);
+      --shadow-card:  0 8px 40px rgba(26,58,92,0.13);
+      --radius:       16px;
+      --radius-sm:    8px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--font-body); background: var(--warm-white); color: var(--text-dark); min-height: 100vh; }
+    a { text-decoration: none; color: inherit; }
+
+    /* LOGIN */
+    .login-screen {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      background: linear-gradient(135deg, var(--warm-white) 55%, var(--blue-pale) 100%);
+    }
+
+    .login-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 3rem 2.5rem;
+      width: 100%;
+      max-width: 400px;
+      box-shadow: var(--shadow-card);
+      border: 1px solid rgba(26,58,92,0.07);
+    }
+
+    .login-logo {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--blue-deep);
+      margin-bottom: 0.3rem;
+    }
+
+    .login-logo span { color: var(--accent); }
+
+    .login-subtitle {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 2rem;
+    }
+
+    .login-card h2 {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      color: var(--blue-deep);
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      margin-bottom: 1rem;
+    }
+
+    .form-group label {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .form-group input {
+      padding: 0.75rem 1rem;
+      border-radius: var(--radius-sm);
+      border: 1.5px solid rgba(26,58,92,0.12);
+      background: var(--warm-white);
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      color: var(--text-dark);
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .form-group input:focus {
+      border-color: var(--blue-light);
+      box-shadow: 0 0 0 3px rgba(91,155,213,0.15);
+    }
+
+    .login-btn {
+      width: 100%;
+      background: var(--blue-deep);
+      color: var(--white);
+      border: none;
+      padding: 0.9rem;
+      border-radius: 50px;
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+      margin-top: 0.5rem;
+    }
+
+    .login-btn:hover { background: var(--blue-mid); transform: translateY(-1px); }
+
+    .login-error {
+      display: none;
+      background: #fee2e2;
+      color: #dc2626;
+      padding: 0.7rem 1rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.85rem;
+      margin-bottom: 1rem;
+    }
+
+    /* ADMIN PANEL */
+    .admin-panel { display: none; }
+
+    .admin-header {
+      background: var(--blue-deep);
+      padding: 1.2rem 6%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .admin-logo {
+      font-family: var(--font-display);
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--white);
+    }
+
+    .admin-logo span { color: var(--accent); }
+
+    .admin-logout {
+      background: rgba(255,255,255,0.12);
+      color: var(--white);
+      border: none;
+      padding: 0.5rem 1.2rem;
+      border-radius: 50px;
+      font-family: var(--font-body);
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .admin-logout:hover { background: rgba(255,255,255,0.2); }
+
+    .admin-content { padding: 2.5rem 6%; }
+
+    .admin-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .admin-title {
+      font-family: var(--font-display);
+      font-size: 1.8rem;
+      color: var(--blue-deep);
+    }
+
+    .admin-count {
+      background: var(--blue-pale);
+      color: var(--blue-mid);
+      padding: 0.4rem 1rem;
+      border-radius: 50px;
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+
+    .refresh-btn {
+      background: var(--blue-deep);
+      color: var(--white);
+      border: none;
+      padding: 0.6rem 1.4rem;
+      border-radius: 50px;
+      font-family: var(--font-body);
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: background 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .refresh-btn:hover { background: var(--blue-mid); }
+
+    .messages-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.2rem;
+    }
+
+    .message-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      box-shadow: var(--shadow-soft);
+      border: 1px solid rgba(26,58,92,0.06);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .message-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-card); }
+
+    .message-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+    }
+
+    .message-avatar {
+      width: 42px; height: 42px;
+      border-radius: 50%;
+      background: var(--blue-pale);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--blue-mid);
+    }
+
+    .message-date {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .message-name {
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      color: var(--blue-deep);
+      margin-bottom: 0.2rem;
+    }
+
+    .message-service {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 500;
+      color: var(--blue-mid);
+      background: var(--blue-pale);
+      padding: 0.2rem 0.7rem;
+      border-radius: 50px;
+      margin-bottom: 1rem;
+    }
+
+    .message-details {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .message-detail {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .message-detail svg {
+      width: 15px; height: 15px;
+      color: var(--blue-light);
+      flex-shrink: 0;
+    }
+
+    .message-detail a { color: var(--blue-mid); }
+    .message-detail a:hover { text-decoration: underline; }
+
+    .message-text {
+      font-size: 0.88rem;
+      color: var(--text-dark);
+      line-height: 1.6;
+      padding: 0.8rem;
+      background: var(--warm-white);
+      border-radius: var(--radius-sm);
+      border-left: 3px solid var(--blue-pale);
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 4rem 2rem;
+      color: var(--text-muted);
+      grid-column: 1/-1;
+    }
+
+    .empty-state svg { width: 56px; height: 56px; margin: 0 auto 1rem; opacity: 0.3; }
+    .empty-state p { font-size: 0.95rem; }
+
+    .loading {
+      text-align: center;
+      padding: 4rem;
+      color: var(--text-muted);
+      grid-column: 1/-1;
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 768px) {
+      .admin-content { padding: 1.5rem 4%; }
+      .messages-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- LOGIN -->
+  <div class="login-screen" id="loginScreen">
+    <div class="login-card">
+      <div class="login-logo">Elvas<span> Cleaning</span></div>
+      <div class="login-subtitle">Admin Panel</div>
+      <h2>Welcome, Elva</h2>
+      <div class="login-error" id="loginError">Incorrect password. Please try again.</div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" id="passwordInput" placeholder="Enter your password" />
+      </div>
+      <button class="login-btn" onclick="login()">Sign In</button>
+    </div>
+  </div>
+
+  <!-- ADMIN PANEL -->
+  <div class="admin-panel" id="adminPanel">
+    <div class="admin-header">
+      <div class="admin-logo">Elvas<span> Cleaning</span></div>
+      <button class="admin-logout" onclick="logout()">Sign Out</button>
+    </div>
+
+    <div class="admin-content">
+      <div class="admin-top">
+        <div>
+          <h1 class="admin-title">Messages</h1>
+          <span class="admin-count" id="messageCount">Loading...</span>
+        </div>
+        <button class="refresh-btn" onclick="loadMessages()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M23 4v6h-6M1 20v-6h6"/>
+            <path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/>
+          </svg>
+          Refresh
+        </button>
+      </div>
+
+      <div class="messages-grid" id="messagesGrid">
+        <div class="loading">Loading messages...</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const ADMIN_PASSWORD = 'elvas2025';
+
+    function login() {
+      const password = document.getElementById('passwordInput').value;
+      const error = document.getElementById('loginError');
+
+      if (password === ADMIN_PASSWORD) {
+        document.getElementById('loginScreen').style.display = 'none';
+        document.getElementById('adminPanel').style.display = 'block';
+        loadMessages();
+      } else {
+        error.style.display = 'block';
+      }
+    }
+
+    document.getElementById('passwordInput').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') login();
+    });
+
+    function logout() {
+      document.getElementById('loginScreen').style.display = 'flex';
+      document.getElementById('adminPanel').style.display = 'none';
+      document.getElementById('passwordInput').value = '';
+    }
+
+    function formatDate(dateStr) {
+      const date = new Date(dateStr);
+      return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+    }
+
+    function getInitials(firstName, lastName) {
+      return (firstName[0] + lastName[0]).toUpperCase();
+    }
+
+    async function loadMessages() {
+      const grid = document.getElementById('messagesGrid');
+      grid.innerHTML = '<div class="loading">Loading messages...</div>';
+
+      try {
+        const response = await fetch('http://localhost:3000/api/contact');
+        const contacts = await response.json();
+
+        document.getElementById('messageCount').textContent = contacts.length + ' message' + (contacts.length !== 1 ? 's' : '');
+
+        if (contacts.length === 0) {
+          grid.innerHTML = `
+            <div class="empty-state">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+              </svg>
+              <p>No messages yet. They will appear here when clients contact you.</p>
+            </div>`;
+          return;
+        }
+
+        grid.innerHTML = contacts.map(c => `
+          <div class="message-card">
+            <div class="message-card-header">
+              <div class="message-avatar">${getInitials(c.firstname, c.lastname)}</div>
+              <div class="message-date">${formatDate(c.createdat)}</div>
+            </div>
+            <div class="message-name">${c.firstname} ${c.lastname}</div>
+            ${c.service ? `<span class="message-service">${c.service}</span>` : ''}
+            <div class="message-details">
+              <div class="message-detail">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                  <polyline points="22,6 12,13 2,6"/>
+                </svg>
+                <a href="mailto:${c.email}">${c.email}</a>
+              </div>
+              ${c.phone ? `
+              <div class="message-detail">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M22 16.92v3a2 2 0 01-2.18 2A19.8 19.8 0 013.09 4.18 2 2 0 015.09 2h3a2 2 0 012 1.72c.13 1 .37 1.97.72 2.9a2 2 0 01-.45 2.11L9.09 10a16 16 0 006.91 6.91l1.27-1.27a2 2 0 012.11-.45c.93.35 1.9.59 2.9.72A2 2 0 0122 16.92z"/>
+                </svg>
+                <a href="tel:${c.phone}">${c.phone}</a>
+              </div>` : ''}
+            </div>
+            ${c.message ? `<div class="message-text">${c.message}</div>` : ''}
+          </div>
+        `).join('');
+
+      } catch (error) {
+        grid.innerHTML = '<div class="loading">Could not load messages. Make sure the server is running.</div>';
+      }
+    }
+  </script>
+
+</body>
+</html>

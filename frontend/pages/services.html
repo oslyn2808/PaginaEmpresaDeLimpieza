@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Elvas Cleaning Services LLC — Belmar, NJ</title>
+  <link rel="stylesheet" href="../css/main.css" />
+  <style>
+    :root {
+      --blue-deep:   #1A3A5C;
+      --blue-mid:    #2563A8;
+      --blue-light:  #5B9BD5;
+      --blue-pale:   #D6E8F7;
+      --warm-white:  #F9F7F4;
+      --white:       #FFFFFF;
+      --text-dark:   #1A2332;
+      --text-muted:  #6B7C93;
+      --accent:      #E8A44A;
+      --font-display: 'Playfair Display', serif;
+      --font-body:    'DM Sans', sans-serif;
+      --shadow-soft: 0 4px 24px rgba(26,58,92,0.10);
+      --shadow-card: 0 8px 40px rgba(26,58,92,0.13);
+      --radius:      16px;
+      --radius-sm:   8px;
+    }
+
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap');
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--font-body); background: var(--warm-white); color: var(--text-dark); overflow-x: hidden; }
+    a { text-decoration: none; color: inherit; }
+    img { max-width: 100%; display: block; }
+
+    /* NAVBAR */
+    .navbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.2rem 6%;
+      background: rgba(249,247,244,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(26,58,92,0.08);
+      transition: box-shadow 0.3s;
+    }
+    .navbar.scrolled { box-shadow: var(--shadow-soft); }
+    .nav-logo { font-family: var(--font-display); font-size: 1.5rem; font-weight: 700; color: var(--blue-deep); letter-spacing: -0.5px; }
+    .nav-logo span { color: var(--accent); }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a { font-size: 0.9rem; font-weight: 500; color: var(--text-muted); letter-spacing: 0.02em; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--blue-deep); }
+    .nav-links a.active { color: var(--blue-deep); font-weight: 600; }
+    .nav-cta { background: var(--blue-deep); color: var(--white) !important; padding: 0.6rem 1.4rem; border-radius: 50px; font-weight: 500 !important; transition: background 0.2s, transform 0.2s !important; }
+    .nav-cta:hover { background: var(--blue-mid) !important; transform: translateY(-1px); }
+    .nav-hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
+    .nav-hamburger span { width: 24px; height: 2px; background: var(--blue-deep); border-radius: 2px; transition: all 0.3s; }
+
+    /* PAGE HERO */
+    .page-hero {
+      padding: 10rem 6% 5rem;
+      background: linear-gradient(135deg, var(--warm-white) 55%, var(--blue-pale) 100%);
+      position: relative;
+      overflow: hidden;
+    }
+    .page-hero::before {
+      content: '';
+      position: absolute;
+      width: 500px; height: 500px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(91,155,213,0.15) 0%, transparent 70%);
+      top: -100px; right: -80px;
+      pointer-events: none;
+    }
+    .page-hero-content { max-width: 600px; animation: fadeUp 0.8s ease both; }
+    .page-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--blue-pale);
+      color: var(--blue-mid);
+      font-size: 0.78rem;
+      font-weight: 500;
+      padding: 0.4rem 1rem;
+      border-radius: 50px;
+      margin-bottom: 1.2rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .page-label::before { content: ''; width: 6px; height: 6px; background: var(--blue-mid); border-radius: 50%; display: inline-block; }
+    .page-hero h1 { font-family: var(--font-display); font-size: clamp(2.2rem, 4vw, 3.4rem); font-weight: 700; color: var(--blue-deep); line-height: 1.15; margin-bottom: 1rem; }
+    .page-hero p { font-size: 1.05rem; color: var(--text-muted); line-height: 1.7; font-weight: 300; max-width: 500px; }
+
+    /* SERVICES DETAIL */
+    .services-detail { padding: 5rem 6%; }
+
+    .service-block {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+      padding: 4rem 0;
+      border-bottom: 1px solid rgba(26,58,92,0.07);
+    }
+    .service-block:last-child { border-bottom: none; }
+    .service-block.reverse { direction: rtl; }
+    .service-block.reverse > * { direction: ltr; }
+
+    .service-block-visual {
+      border-radius: var(--radius);
+      aspect-ratio: 4/3;
+      background: linear-gradient(135deg, var(--blue-pale) 0%, #b8d8f0 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .service-block-visual::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(26,58,92,0.05) 0%, transparent 60%);
+    }
+    .service-block-visual svg { width: 80px; height: 80px; color: var(--blue-mid); opacity: 0.3; }
+
+    .service-block-content {}
+    .service-block-tag {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: var(--blue-mid);
+      background: var(--blue-pale);
+      padding: 0.25rem 0.8rem;
+      border-radius: 50px;
+      margin-bottom: 1rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+    .service-block h2 { font-family: var(--font-display); font-size: clamp(1.5rem, 2.5vw, 2rem); color: var(--blue-deep); margin-bottom: 1rem; line-height: 1.2; }
+    .service-block p  { font-size: 0.95rem; color: var(--text-muted); line-height: 1.75; margin-bottom: 1.5rem; font-weight: 300; }
+
+    .service-includes { margin-bottom: 1.8rem; }
+    .service-includes h4 { font-size: 0.82rem; font-weight: 600; color: var(--blue-deep); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.8rem; }
+    .includes-list { display: flex; flex-direction: column; gap: 0.5rem; }
+    .includes-item { display: flex; align-items: center; gap: 0.7rem; font-size: 0.9rem; color: var(--text-muted); }
+    .includes-item::before {
+      content: '';
+      width: 18px; height: 18px;
+      min-width: 18px;
+      border-radius: 50%;
+      background: var(--blue-pale);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232563A8' stroke-width='2.5'%3E%3Cpath d='M20 6L9 17l-5-5'/%3E%3C/svg%3E");
+      background-size: 11px;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+
+    .btn-primary {
+      background: var(--blue-deep);
+      color: var(--white);
+      padding: 0.85rem 1.8rem;
+      border-radius: 50px;
+      font-weight: 500;
+      font-size: 0.9rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 4px 18px rgba(26,58,92,0.25);
+    }
+    .btn-primary:hover { background: var(--blue-mid); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(26,58,92,0.3); }
+
+    /* CTA BANNER */
+    .cta-banner {
+      margin: 0 6% 5rem;
+      background: var(--blue-deep);
+      border-radius: var(--radius);
+      padding: 4rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2rem;
+      flex-wrap: wrap;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-banner::before {
+      content: '';
+      position: absolute;
+      width: 400px; height: 400px;
+      border-radius: 50%;
+      background: rgba(91,155,213,0.12);
+      top: -150px; right: -80px;
+    }
+    .cta-banner h2 { font-family: var(--font-display); font-size: clamp(1.5rem, 2.5vw, 2rem); color: var(--white); line-height: 1.25; }
+    .cta-banner p  { color: rgba(255,255,255,0.65); font-size: 0.95rem; margin-top: 0.5rem; font-weight: 300; }
+    .btn-accent {
+      background: var(--accent);
+      color: var(--white);
+      padding: 0.9rem 2rem;
+      border-radius: 50px;
+      font-weight: 500;
+      font-size: 0.95rem;
+      white-space: nowrap;
+      transition: opacity 0.2s, transform 0.2s;
+      box-shadow: 0 4px 18px rgba(232,164,74,0.35);
+    }
+    .btn-accent:hover { opacity: 0.9; transform: translateY(-2px); }
+
+    /* FOOTER */
+     footer { background: var(--text-dark); color: rgba(255,255,255,0.6); padding: 3rem 6% 2rem; }
+    .footer-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 2rem; flex-wrap: wrap; padding-bottom: 2rem; border-bottom: 1px solid rgba(255,255,255,0.08); margin-bottom: 1.5rem; }
+    .footer-logo { font-family: var(--font-display); font-size: 1.4rem; color: var(--white); margin-bottom: 0.5rem; }
+    .footer-logo span { color: var(--accent); }
+    .footer-desc { font-size: 0.85rem; line-height: 1.6; max-width: 240px; }
+    .footer-links h4 { color: var(--white); font-size: 0.82rem; font-weight: 600; margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 0.08em; }
+    .footer-links ul { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+    .footer-links a { font-size: 0.85rem; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--white); }
+    .footer-bottom { display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; flex-wrap: wrap; gap: 0.5rem; }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      .service-block { grid-template-columns: 1fr; gap: 2rem; }
+      .service-block.reverse { direction: ltr; }
+      .cta-banner { padding: 2.5rem; }
+    }
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .nav-hamburger { display: flex; }
+      .nav-links.open {
+        display: flex; flex-direction: column;
+        position: fixed; top: 70px; left: 0; right: 0;
+        background: var(--warm-white);
+        padding: 2rem 6%; gap: 1.5rem;
+        border-bottom: 1px solid rgba(26,58,92,0.08);
+        box-shadow: var(--shadow-soft);
+      }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navbar" id="navbar">
+  <a href="../index.html" class="nav-logo">Elvas<span> Cleaning</span></a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="../index.html">Home</a></li>
+    <li><a href="services.html" class="active">Services</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="../index.html#contact">Contact</a></li>
+    <li><a href="../index.html#contact" class="nav-cta">Get a Quote</a></li>
+  </ul>
+  <div class="nav-hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+  <div class="page-hero">
+    <div class="page-hero-content">
+      <div class="page-label">What We Offer</div>
+      <h1>Cleaning Services<br/>For Every Need</h1>
+      <p>From weekly home maintenance to full commercial contracts, Elvas Cleaning delivers consistent, professional results every time.</p>
+    </div>
+  </div>
+
+  <div class="services-detail">
+
+    <div class="service-block">
+      <div class="service-block-visual">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+          <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+          <polyline points="9 22 9 12 15 12 15 22"/>
+        </svg>
+      </div>
+      <div class="service-block-content">
+        <span class="service-block-tag">Residential</span>
+        <h2>Home Cleaning</h2>
+        <p>We take care of your home so you can focus on what matters. Our residential cleaning service covers every room with attention to detail, using professional-grade products that are safe for your family.</p>
+        <div class="service-includes">
+          <h4>What's included</h4>
+          <div class="includes-list">
+            <div class="includes-item">Kitchen deep clean — appliances, counters, sink</div>
+            <div class="includes-item">Bathrooms scrubbed and disinfected</div>
+            <div class="includes-item">All floors vacuumed and mopped</div>
+            <div class="includes-item">Bedrooms dusted and tidied</div>
+            <div class="includes-item">Living areas and common spaces</div>
+            <div class="includes-item">Interior windows wiped down</div>
+          </div>
+        </div>
+        <a href="../index.html#contact" class="btn-primary">Request a Quote &rarr;</a>
+      </div>
+    </div>
+
+    <div class="service-block reverse">
+      <div class="service-block-visual">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+          <rect x="2" y="7" width="20" height="14" rx="2"/>
+          <path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/>
+          <line x1="12" y1="12" x2="12" y2="16"/>
+          <line x1="10" y1="14" x2="14" y2="14"/>
+        </svg>
+      </div>
+      <div class="service-block-content">
+        <span class="service-block-tag">Commercial</span>
+        <h2>Business and Office Cleaning</h2>
+        <p>A clean workspace improves productivity and makes a great impression on your clients. We offer flexible commercial cleaning schedules to keep your business looking its best without disrupting your operations.</p>
+        <div class="service-includes">
+          <h4>What's included</h4>
+          <div class="includes-list">
+            <div class="includes-item">Offices, lobbies, and conference rooms</div>
+            <div class="includes-item">Restrooms sanitized and restocked</div>
+            <div class="includes-item">Break rooms and kitchen areas</div>
+            <div class="includes-item">Floors swept, vacuumed, and mopped</div>
+            <div class="includes-item">Trash removed and bins replaced</div>
+            <div class="includes-item">Custom schedule — daily, weekly, or monthly</div>
+          </div>
+        </div>
+        <a href="../index.html#contact" class="btn-primary">Request a Quote &rarr;</a>
+      </div>
+    </div>
+
+    <div class="service-block">
+      <div class="service-block-visual">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+          <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/>
+          <polyline points="17 6 23 6 23 12"/>
+        </svg>
+      </div>
+      <div class="service-block-content">
+        <span class="service-block-tag">Deep Clean</span>
+        <h2>Deep Cleaning</h2>
+        <p>When a regular clean isn't enough, our deep cleaning service goes into every corner, crack, and surface. Perfect as a one-time reset or a seasonal refresh — this is the most thorough clean we offer.</p>
+        <div class="service-includes">
+          <h4>What's included</h4>
+          <div class="includes-list">
+            <div class="includes-item">Everything in standard cleaning</div>
+            <div class="includes-item">Inside appliances — oven, fridge, microwave</div>
+            <div class="includes-item">Baseboards, vents, and light fixtures</div>
+            <div class="includes-item">Cabinet interiors wiped down</div>
+            <div class="includes-item">Grout and tile scrubbing</div>
+            <div class="includes-item">Behind and under furniture</div>
+          </div>
+        </div>
+        <a href="../index.html#contact" class="btn-primary">Request a Quote &rarr;</a>
+      </div>
+    </div>
+
+    <div class="service-block reverse">
+      <div class="service-block-visual">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+          <rect x="3" y="3" width="18" height="18" rx="2"/>
+          <path d="M3 9h18M9 21V9"/>
+        </svg>
+      </div>
+      <div class="service-block-content">
+        <span class="service-block-tag">Windows</span>
+        <h2>Window Cleaning</h2>
+        <p>Crystal clear windows make a huge difference in how a space looks and feels. We clean both interior and exterior glass, leaving no streaks and no residue — just a clean, bright view.</p>
+        <div class="service-includes">
+          <h4>What's included</h4>
+          <div class="includes-list">
+            <div class="includes-item">Interior and exterior glass surfaces</div>
+            <div class="includes-item">Window frames and sills wiped down</div>
+            <div class="includes-item">Streak-free finish guaranteed</div>
+            <div class="includes-item">Available for homes and businesses</div>
+          </div>
+        </div>
+        <a href="../index.html#contact" class="btn-primary">Request a Quote &rarr;</a>
+      </div>
+    </div>
+  </div>
+
+    <div class="cta-banner">
+    <div>
+      <h2>Not sure which service<br/>is right for you?</h2>
+      <p>Send us a message and we'll help you figure out the best option for your space.</p>
+    </div>
+    <div style="text-align:center;">
+      <div style="font-size:0.85rem;color:rgba(255,255,255,0.6);margin-bottom:0.4rem;letter-spacing:0.08em;text-transform:uppercase;">Call us today</div>
+      <a href="tel:9087085330" style="font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:700;color:#E8A44A;letter-spacing:1px;text-decoration:none;">908-708-5330</a>
+      <div style="font-size:0.8rem;color:rgba(255,255,255,0.5);margin-top:0.3rem;">or 732-912-3634</div>
+    </div>
+    </div>
+
+  <footer>
+    <div class="footer-top">
+      <div>
+        <div class="footer-logo">Elvas<span> Cleaning</span></div>
+        <p class="footer-desc">Professional cleaning services for homes and businesses. Quality you can see, trust you can feel.</p>
+      </div>
+      <div class="footer-links">
+        <h4>Services</h4>
+        <ul>
+          <li><a href="services.html">Residential</a></li>
+          <li><a href="services.html">Commercial</a></li>
+          <li><a href="services.html">Deep Cleaning</a></li>
+        </ul>
+      </div>
+      <div class="footer-links">
+          <h4>Company</h4>
+         <ul>
+           <li><a href="about.html">About Us</a></li>
+           <li><a href="../index.html#contact">Contact</a></li>
+          </ul>
+       </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2025 Elvas Cleaning Services LLC. All rights reserved.</span>
+      <span>Designed with care</span>
+    </div>
+  </footer>
+
+  <script>
+    window.addEventListener('scroll', () => {
+      document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 30);
+    });
+    function toggleMenu() {
+      document.getElementById('navLinks').classList.toggle('open');
+    }
+    document.querySelectorAll('.nav-links a').forEach(link => {
+      link.addEventListener('click', () => document.getElementById('navLinks').classList.remove('open'));
+    });
+  </script>
+
+</body>
+</html>
